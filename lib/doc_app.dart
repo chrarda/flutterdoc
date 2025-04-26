@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutterdoc/core/Theming/colors.dart';
 import 'package:flutterdoc/core/rouTing/app_router.dart';
+import 'package:flutterdoc/core/rouTing/routes.dart';
 
 class DocApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -14,8 +16,11 @@ class DocApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Doc App',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.blue,
+            primaryColor: ColorsManager.mainBlue,
+            scaffoldBackgroundColor: Colors.white),
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.onBoardingScreen,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );
