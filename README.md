@@ -8,3 +8,6 @@ A new Flutter project.
 
 system design  
 ![dossiers](https://github.com/user-attachments/assets/848b8a55-17c5-48fa-af77-b7e6399b7e41)
+=======
+mon premier projet flutter sur git
+>>>>>>> 714efcd (modification pubspec.yaml)
