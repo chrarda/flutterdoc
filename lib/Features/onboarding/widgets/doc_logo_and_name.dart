@@ -16,7 +16,7 @@ class DocLogoAndName extends StatelessWidget {
         SizedBox(
           width: 10.w,
         ),
-        Text('DocDoc', style: TextStyles.font24Black700Weight)
+        Text('DocDoc', style: TextStyles.font24BlueBold),
       ],
     );
   }
