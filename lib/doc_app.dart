@@ -15,6 +15,7 @@ class DocApp extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         title: 'Doc App',
+        themeMode: ThemeMode.light, // 👈 Force le mode clair
         theme: ThemeData(
             primarySwatch: Colors.blue,
             primaryColor: ColorsManager.mainBlue,
