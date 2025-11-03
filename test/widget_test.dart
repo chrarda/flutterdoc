@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutterdoc/core/rouTing/app_router.dart';
+import 'package:flutterdoc/core/routing/app_router.dart';
 import 'package:flutterdoc/doc_app.dart';
 
 void main() {
