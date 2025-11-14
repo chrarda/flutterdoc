@@ -1,0 +1,49 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy Flutter APK to Firebase App Distribution"
+  lane :firebase_distribution do
+    begin
+      # Variables (SANS TOKEN EN DUR !)
+      app_id = "1:1032200431495:android:367c351d3396ce57521522"
+      testers = "myahmedelamiri@gmail.com,lailaelamiri586@gmail.com"
+      
+      puts "🚀 Starting Flutter Firebase Distribution..."
+      
+      # Étape 1: Clean
+      puts "🧹 Cleaning project..."
+      sh "flutter clean"
+      
+      # Étape 2: Build APK
+      puts "📦 Building APK..."
+      sh "flutter build apk --release --flavor production --target lib/main_production.dart --no-tree-shake-icons"
+      
+      # Étape 3: Vérifier l'APK
+      apk_path = "../build/app/outputs/flutter-apk/app-production-release.apk"
+      
+      unless File.exist?(apk_path)
+        UI.error "APK not found at: #{apk_path}"
+        raise "Build failed - APK not found"
+      end
+      
+      puts "✅ APK found: #{apk_path}"
+      
+      # Étape 4: Distribution Firebase (TOKEN SÉCURISÉ)
+      puts "📤 Deploying to Firebase App Distribution..."
+      firebase_app_distribution(
+        app: app_id,
+        apk_path: apk_path,
+        firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],  # ← VARIABLE D'ENVIRONNEMENT
+        testers: testers,
+        release_notes: "Auto-deploy from Fastlane - #{Time.now.strftime('%Y-%m-%d %H:%M')}",
+        debug: true
+      )
+      
+      puts "✅ Successfully deployed to Firebase App Distribution!"
+      
+    rescue => error
+      UI.error "❌ Deployment failed: #{error.message}"
+      raise error
+    end
+  end
+end
