@@ -28,23 +28,18 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-    // Configuration des flavors pour les environnements de production et développement
     flavorDimensions "default"
     productFlavors {
-        production {
-            dimension = "default"
-            // android:label="@string/app_name" cette valeur est définie dans AndroidManifest.xml
-            //pour chaque flavor via resValue ci-dessous suivant l'environnement 
-            //production ou development
-            resValue  "string", "app_name", "DocDoc Production"
-        }
-        development {
-            dimension = "default"
-            // Suffixe pour l'ID de l'application en développement
-            applicationIdSuffix = ".dev"
-            resValue "string", "app_name", "DocDoc Development"
-        }
-    }
+      production {
+          dimension "default"
+          resValue "string", "app_name", "DocDoc Production"
+      }
+      development {
+          dimension "default"
+          applicationIdSuffix ".dev"
+          resValue "string", "app_name", "DocDoc Development"
+      }
+  }
 
     buildTypes {
         release {
