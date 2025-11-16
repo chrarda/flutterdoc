@@ -6,7 +6,7 @@ import 'package:flutterdoc/Features/login/ui/login_screen.dart';
 import 'package:flutterdoc/Features/onboarding/onboarding_screen.dart';
 import 'package:flutterdoc/Features/sign_up/logic/sign_up_cubit.dart';
 import 'package:flutterdoc/core/di/dependency_injection.dart';
-import 'package:flutterdoc/core/rouTing/routes.dart';
+import 'package:flutterdoc/core/routing/routes.dart';
 import 'package:flutterdoc/Features/sign_up/ui/sign_up_screen.dart';
 
 class AppRouter {
