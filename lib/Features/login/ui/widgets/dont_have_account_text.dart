@@ -4,7 +4,7 @@ import 'package:flutterdoc/core/helpers/extentions.dart';
 
 import 'package:flutterdoc/core/routing/routes.dart';
 
-import '../../../../core/theming/styles.dart';
+import '../../../../core/Theming/styles.dart';
 
 class DontHaveAccountText extends StatelessWidget {
   const DontHaveAccountText({super.key});

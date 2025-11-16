@@ -5,7 +5,7 @@ import 'package:flutterdoc/Features/sign_up/logic/sign_up_state.dart';
 import 'package:flutterdoc/core/Theming/colors.dart';
 import 'package:flutterdoc/core/Theming/styles.dart';
 import 'package:flutterdoc/core/helpers/extentions.dart';
-import 'package:flutterdoc/core/rouTing/routes.dart';
+import 'package:flutterdoc/core/routing/routes.dart';
 
 class SignUpBlocListener extends StatelessWidget {
   const SignUpBlocListener({super.key});

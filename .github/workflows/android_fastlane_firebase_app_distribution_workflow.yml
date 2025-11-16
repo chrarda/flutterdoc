@@ -1,0 +1,76 @@
+name: Android Fastlane with Firebase App Distribution Workflow
+
+on:
+  push:
+    branches:
+      - main   # Déclenche le workflow sur push dans main
+
+jobs: 
+  android-build-and-distribute:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Télécharger ton code
+      - name: Checkout my repository code
+        uses: actions/checkout@v4
+
+      # 2. Installer Java (obligatoire pour Gradle)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Installer Flutter
+      - name: Install Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Flutter doctor
+        run: flutter doctor
+
+      # 4. Récupérer les dépendances
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Build APK en mode production (avec flavor)
+      - name: Build Production APK
+        run: flutter build apk --release --flavor production -t lib/main_production.dart
+
+      # 6. Installer Ruby
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      # 7. Installer Fastlane
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      # 8. Installer le keystore pour signer l’APK
+      - name: Decode & install Android keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+
+      # 9. Configurer gradle.properties pour la signature
+      - name: Configure gradle.properties
+        run: |
+          echo "MYAPP_UPLOAD_STORE_FILE=upload-keystore.jks" >> android/gradle.properties
+          echo "MYAPP_UPLOAD_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/gradle.properties
+          echo "MYAPP_UPLOAD_STORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/gradle.properties
+          echo "MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/gradle.properties
+
+      # 10. Exécuter Fastlane dans le dossier android/
+      - name: Run Fastlane (Firebase Distribution)
+        working-directory: android
+        env:
+          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+        run: fastlane firebase_distribution
+
+      # 11. (Optionnel) Télécharger l’APK en artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-apk
+          path: build/app/outputs/flutter-apk/app-production-release.apk
