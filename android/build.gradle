@@ -1,13 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.8.22'
     repositories {
         google()
         mavenCentral()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'  // ← Version 8.1.1
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // NE PAS mettre com.android.tools.build:gradle manuellement
+        // Flutter gère cela automatiquement via dev.flutter.flutter-gradle-plugin
     }
 }
 
@@ -18,12 +16,14 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
+rootProject.buildDir = "../build"
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
 subprojects {
-    project.evaluationDependsOn(':app')
+    project.evaluationDependsOn(":app")
 }
 
 tasks.register("clean", Delete) {

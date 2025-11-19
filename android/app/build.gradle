@@ -1,50 +1,54 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // Le plugin Flutter doit être appliqué après les plugins Android et Kotlin
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
     namespace = "com.example.flutterdoc"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        // Cibler Java 17 pour supprimer les warnings sur la version 8 obsolète
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        // Générer du bytecode Java 17 pour Kotlin
         jvmTarget = "17"
     }
 
     defaultConfig {
         applicationId = "com.example.flutterdoc"
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
+
     flavorDimensions "default"
+
     productFlavors {
-      production {
-          dimension "default"
-          resValue "string", "app_name", "DocDoc Production"
-      }
-      development {
-          dimension "default"
-          applicationIdSuffix ".dev"
-          resValue "string", "app_name", "DocDoc Development"
-      }
-  }
+        production {
+            dimension "default"
+            resValue "string", "app_name", "DocDoc Production"
+        }
+        development {
+            dimension "default"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "DocDoc Development"
+        }
+    }
 
     buildTypes {
-        release {
-            // Pour l'instant, on signe en debug pour pouvoir faire flutter run --release
+        debug {
             signingConfig = signingConfigs.debug
+        }
+        release {
+            signingConfig = signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 }
