@@ -1,11 +1,12 @@
 buildscript {
+    ext.kotlin_version = '2.1.0'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        // NE PAS mettre com.android.tools.build:gradle manuellement
-        // Flutter gère cela automatiquement via dev.flutter.flutter-gradle-plugin
+        classpath 'com.android.tools.build:gradle:8.6.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
