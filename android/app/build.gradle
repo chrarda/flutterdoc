@@ -1,54 +1,81 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // Le plugin Flutter doit être appliqué après les plugins Android et Kotlin
     id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
 }
 
 android {
     namespace = "com.example.flutterdoc"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk 36
 
     compileOptions {
-        // Cibler Java 17 pour supprimer les warnings sur la version 8 obsolète
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        // Générer du bytecode Java 17 pour Kotlin
-        jvmTarget = "17"
+        jvmTarget = '17'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
         applicationId = "com.example.flutterdoc"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdkVersion flutter.minSdkVersion
+        targetSdk 36
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
     }
+
     flavorDimensions "default"
     productFlavors {
-      production {
-          dimension "default"
-          resValue "string", "app_name", "DocDoc Production"
-      }
-      development {
-          dimension "default"
-          applicationIdSuffix ".dev"
-          resValue "string", "app_name", "DocDoc Development"
-      }
-  }
+        production {
+            dimension "default"
+            resValue "string", "app_name", "DocDoc Production"
+        }
+        development {
+            dimension "default"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "DocDoc Development"
+        }
+    }
 
     buildTypes {
         release {
-            // Pour l'instant, on signe en debug pour pouvoir faire flutter run --release
+            signingConfig = signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
             signingConfig = signingConfigs.debug
         }
     }
 }
 
 flutter {
-    source = "../.."
+    source = '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
