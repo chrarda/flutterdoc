@@ -4,7 +4,7 @@ description: "A new Flutter project."
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+3
+version: 1.0.0+4
 
 environment:
   sdk: ^3.6.1
@@ -37,7 +37,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
 
   # Localisation
-  intl: ^0.19.0
+  intl: 0.20.2  
   easy_localization: ^3.0.3
 
   # Splash screen
