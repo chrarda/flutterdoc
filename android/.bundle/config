@@ -1,2 +1,0 @@
----
-BUNDLE_BUILD__NKF: "--with-cflags=-std=c99"
